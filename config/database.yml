@@ -15,8 +15,6 @@ development:
   <<: *default
   database: andrey_development
   host: localhost
-  username: kahuso
-  password: kahuso15
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -25,12 +23,6 @@ test:
   <<: *default
   database: andrey_test
   host: localhost
-  username: kahuso
-  password: kahuso15
 
 production:
   <<: *default
-  database: andrey_production
-  host: localhost
-  username: kahuso
-  password: kahuso15
