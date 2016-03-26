@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  imdb_id: 1
+  tmdm_id: 1
+  movie: 
+
+two:
+  imdb_id: 1
+  tmdm_id: 1
+  movie: 

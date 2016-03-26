@@ -1,0 +1,33 @@
+inherit_from: .rubocop_todo.yml
+
+Rails:
+  Enabled: true
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/migrate/**/*'
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
+
+AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+LineLength:
+  Exclude:
+    - 'config/initializers/**/*'
+
+Documentation:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Style/LineLength:
+  Max: 120
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
