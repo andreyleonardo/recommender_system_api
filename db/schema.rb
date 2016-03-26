@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160326151932) do
+ActiveRecord::Schema.define(version: 20160326214134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "genres", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "links", force: :cascade do |t|
     t.integer  "imdb_id"
@@ -25,6 +31,16 @@ ActiveRecord::Schema.define(version: 20160326151932) do
   end
 
   add_index "links", ["movie_id"], name: "index_links_on_movie_id", using: :btree
+
+  create_table "movie_genres", force: :cascade do |t|
+    t.integer  "movie_id"
+    t.integer  "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "movie_genres", ["genre_id"], name: "index_movie_genres_on_genre_id", using: :btree
+  add_index "movie_genres", ["movie_id"], name: "index_movie_genres_on_movie_id", using: :btree
 
   create_table "movies", force: :cascade do |t|
     t.string   "title"
@@ -89,6 +105,8 @@ ActiveRecord::Schema.define(version: 20160326151932) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "links", "movies"
+  add_foreign_key "movie_genres", "genres"
+  add_foreign_key "movie_genres", "movies"
   add_foreign_key "ratings", "movies"
   add_foreign_key "ratings", "users"
   add_foreign_key "tags", "movies"
