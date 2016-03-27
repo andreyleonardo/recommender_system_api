@@ -31,7 +31,7 @@ gem 'faker'
 # Recommender System gem
 gem 'predictor'
 gem 'hiredis'
-
+gem 'sinatra', require: nil
 gem 'web-console', '~> 2.0', group: :development
 
 group :development, :test do

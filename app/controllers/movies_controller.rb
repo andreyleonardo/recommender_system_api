@@ -29,6 +29,10 @@ class MoviesController < ApplicationController
     render json: movies, root: false
   end
 
+  def generate_similarities
+    RecommenderProcessWorker.perform_async
+  end
+
   private
 
   def movie_params

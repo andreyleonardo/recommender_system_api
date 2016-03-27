@@ -3,9 +3,9 @@
 class MovieRecommender
   include Predictor::Base
 
-  # input_matrix :users, weight: 4.0
-  input_matrix :ratings, weight: 3.0
-  input_matrix :genres, weight: 2.0
+  input_matrix :genres, weight: 4.0
+  input_matrix :users, weight: 3.0
+  input_matrix :ratings, weight: 2.0
   input_matrix :tags, weight: 1.0, measure: :sorensen_coefficient # Use Sorenson over Jaccard
 
   def add_movies_to_matrix
@@ -19,12 +19,12 @@ class MovieRecommender
       end
       unless movie.tags.empty?
         movie.tags.each do |tag|
-          add_to_matrix(:tags, tag, movie.id)
+          add_to_matrix(:tags, tag.id, movie.id)
         end
       end
       unless movie.genres.empty?
         movie.genres.each do |movie_genre|
-          add_to_matrix(:genres, movie_genre.genre, movie.id)
+          add_to_matrix(:genres, movie_genre.genre.id, movie.id)
         end
       end
     end

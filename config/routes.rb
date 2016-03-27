@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   post 'users', to: 'users#create'
   post 'users/sign_in', to: 'sessions#create'
@@ -20,4 +21,6 @@ Rails.application.routes.draw do
   get 'show_movie/:id', to: 'movies#show'
   get 'recommend/movies_by_similarity', to: 'movies#recommend_movies_by_similarity'
   get 'recommend/movies_by_prediction', to: 'movies#recommend_movies_by_prediction'
+  post 'recommend/generate_similarities', to: 'movies#generate_similarities'
+  mount Sidekiq::Web, at: '/sidekiq'
 end
