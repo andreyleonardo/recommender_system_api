@@ -10,8 +10,7 @@ csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
   movie = row.to_hash
   Movie.create(
-    title: movie['title'],
-    genres: movie['genres']
+    title: movie['title']
   )
 end
 puts Time.zone.now - start

@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       # Note: Devise will automatically send email confirmation instructions
       # after a user is created.  Need to wait until after the child object
       # is created since that is where we store their name.
-      user.skip_confirmation_notification!
+      # user.skip_confirmation_notification!
       profile = Profile.new profile_params
       user.profile = profile
 
