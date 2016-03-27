@@ -12,9 +12,10 @@ csv_text = File.read('db/seeds_data/links.csv')
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
   link = row.to_hash
-  next unless Movie.find_by(id: link['movieId'])
+  movie = Movie.find_by(movielens_id: link['movieId'])
+  next unless movie
   Link.create(
-    movie_id: link['movieId'],
+    movie_id: movie.id,
     imdb_id: link['imdbId'],
     tmdb_id: link['tmdbId']
   )
@@ -29,10 +30,11 @@ csv_text = File.read('db/seeds_data/ratings.csv')
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
   rating = row.to_hash
-  next unless Movie.find_by(id: rating['movieId'])
+  movie = Movie.find_by(movielens_id: rating['movieId'])
+  next unless movie
   Rating.create(
     user_id: rating['userId'],
-    movie_id: rating['movieId'],
+    movie_id: movie.id,
     rating: rating['rating']
   )
   UserRating.create(
@@ -50,10 +52,11 @@ csv_text = File.read('db/seeds_data/tags.csv')
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
   tag = row.to_hash
-  next unless Movie.find_by(id: tag['movieId'])
+  movie = Movie.find_by(movielens_id: tag['movieId'])
+  next unless movie
   Tag.create(
     user_id: tag['userId'],
-    movie_id: tag['movieId'],
+    movie_id: movie.id,
     tag: tag['tag']
   )
 end

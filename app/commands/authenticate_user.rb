@@ -10,9 +10,8 @@ class AuthenticateUser
     user = validate_user
     return unless user
     JsonWebToken.encode(
-      user_id: user.id,
-      candidate_id: (user.candidate.id unless user.candidate.nil?),
-      recruiter_id: (user.recruiter.id unless user.recruiter.nil?))
+      user_id: user.id
+    )
   end
 
   private

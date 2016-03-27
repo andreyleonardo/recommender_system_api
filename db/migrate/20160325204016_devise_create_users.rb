@@ -11,7 +11,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       ## Rememberable
       t.datetime :remember_created_at
-
+      t.string :access_token
       t.timestamps null: false
     end
 

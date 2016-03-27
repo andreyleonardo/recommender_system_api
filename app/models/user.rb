@@ -18,34 +18,10 @@ class User < ActiveRecord::Base
     User.find_by email: email.downcase
   end
 
-  def first_name
-    if candidate
-      candidate.first_name
-    else
-      recruiter.first_name
-    end
-  end
-
-  def last_name
-    if candidate
-      candidate.full_name.split.last
-    else
-      recruiter.full_name.split.last
-    end
-  end
-
-  def full_name
-    if candidate
-      candidate.full_name
-    else
-      recruiter.full_name
-    end
-  end
-
   private
 
   def update_access_token
     command = AuthenticateUser.call(email, password)
-    self.access_token = command.result if command.success?
+    # self.access_token = command.result if command.success?
   end
 end

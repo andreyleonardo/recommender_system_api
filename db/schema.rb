@@ -44,11 +44,12 @@ ActiveRecord::Schema.define(version: 20160326214134) do
 
   create_table "movies", force: :cascade do |t|
     t.string   "title"
-    t.string   "genres"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "movielens_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
+  add_index "movies", ["movielens_id"], name: "index_movies_on_movielens_id", using: :btree
   add_index "movies", ["title"], name: "index_movies_on_title", using: :btree
 
   create_table "profiles", force: :cascade do |t|
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 20160326214134) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string   "access_token"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "profile_id"

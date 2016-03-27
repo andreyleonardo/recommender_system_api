@@ -10,22 +10,24 @@ csv_text = File.read('db/seeds_data/movies.csv')
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
   movie = row.to_hash
-  next unless Movie.find_by(id: movie['movieId'])
+  saved_movie = Movie.find_by(movielens_id: movie['movieId'])
+  next unless saved_movie
   genres = movie['genres'].split('|')
   genres.each do |g|
     genre = Genre.find_by(name: g)
     if genre
       MovieGenre.create(
-        movie_id: movie['movieId'],
+        movie_id: saved_movie.id,
         genre_id: genre.id
       )
     else
       Genre.create(
         name: g
       )
+      genre = Genre.find_by(name: g)
       MovieGenre.create(
-        movie_id: movie['movieId'],
-        genre_id: Genre.last.id
+        movie_id: saved_movie.id,
+        genre_id: genre.id
       )
     end
   end
