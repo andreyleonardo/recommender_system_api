@@ -22,6 +22,6 @@ class User < ActiveRecord::Base
 
   def update_access_token
     command = AuthenticateUser.call(email, password)
-    # self.access_token = command.result if command.success?
+    self.access_token = command.result if command.success?
   end
 end

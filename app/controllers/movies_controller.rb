@@ -13,11 +13,13 @@ class MoviesController < ApplicationController
   def recommend_movies_by_similarity
     recommender = MovieRecommender.new
     movies = recommender.similarities_for(params[:id], with_scores: true)
-    # movies_hash = movies.to_h
+    movies_hash = movies.to_h
+    ids = movies_hash.keys
+    movies = Movie.where(id: ids).order("position(id::text in '#{ids.join(',')}')")
     # movies = Movie.find(movies_hash.keys)
-    # movies.each do |movie|
-    #   movie.score = movies_hash[movie.id.to_s]
-    # end
+    movies.each do |movie|
+      movie.score = movies_hash[movie.id.to_s]
+    end
 
     render json: movies, root: false
   end
