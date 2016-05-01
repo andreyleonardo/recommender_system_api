@@ -44,25 +44,6 @@ GEM
     bcrypt (3.1.11)
     builder (3.2.2)
     byebug (8.2.2)
-    capistrano (3.4.0)
-      i18n
-      rake (>= 10.0.0)
-      sshkit (~> 1.3)
-    capistrano-bundler (1.1.4)
-      capistrano (~> 3.1)
-      sshkit (~> 1.2)
-    capistrano-rails (1.1.6)
-      capistrano (~> 3.1)
-      capistrano-bundler (~> 1.1)
-    capistrano-rvm (0.1.2)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
-    capistrano-sidekiq (0.5.4)
-      capistrano
-      sidekiq (>= 3.4)
-    capistrano3-puma (1.2.1)
-      capistrano (~> 3.0)
-      puma (>= 2.6)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     celluloid-io (0.16.0)
@@ -100,15 +81,21 @@ GEM
     mime-types (3.0)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0221)
+    mina (0.3.8)
+      open4 (~> 1.3.4)
+      rake
+    mina-puma (0.3.0)
+      mina
+      puma (>= 2.13)
+    mina-sidekiq (0.3.1)
+      mina
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_xml (0.5.5)
-    net-scp (1.2.1)
-      net-ssh (>= 2.6.5)
-    net-ssh (3.0.2)
     nio4r (1.2.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    open4 (1.3.4)
     orm_adapter (0.5.0)
     parser (2.3.0.6)
       ast (~> 2.2)
@@ -189,9 +176,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.9.0)
-      net-scp (>= 1.1.2)
-      net-ssh (>= 2.8.0)
     table_print (1.5.4)
     themoviedb-api (1.0.4)
       httparty (~> 0.13.7, >= 0.13.7)
@@ -213,18 +197,15 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.8.3)
   byebug
-  capistrano
-  capistrano-bundler
-  capistrano-rails
-  capistrano-rvm
-  capistrano-sidekiq
-  capistrano3-puma
   celluloid-io (= 0.16.0)
   devise (~> 3.5.2)
   hiredis
   ice_cube
   jwt (= 1.5.4)
   letter_opener
+  mina
+  mina-puma
+  mina-sidekiq
   pg
   predictor
   puma
