@@ -33,7 +33,7 @@ set :puma_init_active_record, true # Change to false when not using ActiveRecord
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w(config/database.yml)
+set :linked_files, %w(config/database.yml config/secrets.yml)
 # set :linked_dirs,  %w(tmp/pids tmp/cache tmp/sockets)
 
 namespace :puma do
