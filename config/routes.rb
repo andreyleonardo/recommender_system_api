@@ -22,5 +22,5 @@ Rails.application.routes.draw do
   get 'recommend/movies_by_similarity', to: 'movies#recommend_movies_by_similarity'
   get 'recommend/movies_by_prediction', to: 'movies#recommend_movies_by_prediction'
   post 'recommend/generate_similarities', to: 'movies#generate_similarities'
-  mount Sidekiq::Web, at: '/sidekiq'
+  mount Sidekiq::Web, at: '/process/show_process'
 end
