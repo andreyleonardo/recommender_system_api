@@ -1,7 +1,7 @@
 root = '/home/deploy/apps/recommender_system_api/current'
 working_directory root
 
-pid "#{root}/tmp/pids/unicorn.pid"
+pid "#{shared_path}/tmp/pids/unicorn.pid"
 
 stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"

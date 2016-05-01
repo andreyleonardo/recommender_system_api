@@ -48,6 +48,14 @@ set :linked_files, %w(config/database.yml)
 # end
 
 namespace :deploy do
+  desc 'Create Directories for Unicorn Pids and Socket'
+  task :make_dirs do
+    on roles(:app) do
+      execute "mkdir #{shared_path}/tmp/sockets -p"
+      execute "mkdir #{shared_path}/tmp/pids -p"
+    end
+  end
+
   desc 'Make sure local git is in sync with remote.'
   task :check_revision do
     on roles(:app) do
@@ -76,8 +84,9 @@ namespace :deploy do
   #   end
   # end
 
-  before :starting,     :check_revision
-  after  :finishing,    :compile_assets
+  before :starting,     :make_dirs
+  after :starting,      :check_revision
+  # after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
