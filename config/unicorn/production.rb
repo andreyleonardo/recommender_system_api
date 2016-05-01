@@ -1,4 +1,5 @@
 root = '/home/deploy/apps/recommender_system_api/current'
+shared_path = '/home/deploy/apps/recommender_system_api/shared/'
 working_directory root
 
 pid "#{shared_path}/tmp/pids/unicorn.pid"
