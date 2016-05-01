@@ -65,6 +65,9 @@ GEM
       puma (>= 2.6)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    celluloid-io (0.16.0)
+      celluloid (>= 0.16.0)
+      nio4r (>= 1.0.0)
     concurrent-ruby (1.0.1)
     connection_pool (2.2.0)
     devise (3.5.6)
@@ -103,6 +106,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.2)
+    nio4r (1.2.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
@@ -215,8 +219,10 @@ DEPENDENCIES
   capistrano-rvm
   capistrano-sidekiq
   capistrano3-puma
+  celluloid-io (= 0.16.0)
   devise (~> 3.5.2)
   hiredis
+  ice_cube
   jwt (= 1.5.4)
   letter_opener
   pg

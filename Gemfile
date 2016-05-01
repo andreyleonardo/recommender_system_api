@@ -11,7 +11,11 @@ gem 'jwt', '1.5.4'
 gem 'simple_command'
 gem 'rack-cors', require: 'rack/cors'
 gem 'yettings', '~>0.1.1'
+
+# Sidekiq gems
 gem 'sidekiq', '3.4.2'
+gem 'celluloid-io', '0.16.0'
+gem 'ice_cube'
 
 gem 'sidetiq'
 
