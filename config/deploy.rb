@@ -6,8 +6,8 @@ server '192.241.178.209', port: 22, roles: [:web, :app, :db], primary: true
 set :repo_url,        'git@github.com:dreyxvx/recommender_system_api.git'
 set :application,     'recommender_system_api'
 set :user,            'deploy'
-# set :puma_threads,    [4, 16]
-# set :puma_workers,    0
+set :puma_threads,    [4, 16]
+set :puma_workers,    0
 
 # Don't change these unless you know what you're doing
 set :pty,             true
@@ -48,14 +48,6 @@ namespace :puma do
 end
 
 namespace :deploy do
-  # desc 'Create Directories for Unicorn Pids and Socket'
-  # task :make_dirs do
-  #   on roles(:app) do
-  #     execute "mkdir #{shared_path}/tmp/sockets -p"
-  #     execute "mkdir #{shared_path}/tmp/pids -p"
-  #   end
-  # end
-
   desc 'Make sure local git is in sync with remote.'
   task :check_revision do
     on roles(:app) do
@@ -66,27 +58,22 @@ namespace :deploy do
       end
     end
   end
-  # desc 'Initial Deploy'
-  # task :initial do
-  #   on roles(:app) do
-  #     before 'deploy:restart', 'puma:start'
-  #     invoke 'deploy'
-  #   end
-  # end
 
-  # desc 'Restart application'
-  # task :restart do
-  #   invoke 'unicorn:reload'
-  # end
+  desc 'Initial Deploy'
+  task :initial do
+    on roles(:app) do
+      before 'deploy:restart', 'puma:start'
+      invoke 'deploy'
+    end
+  end
+
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       invoke 'puma:restart'
     end
   end
 
-  # before :starting,     :make_dirs
   before :starting,     :check_revision
-  # after :starting,      :check_revision
   # after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart

@@ -6,7 +6,6 @@ gem 'active_model_serializers', '~> 0.8.3' # NOTE: not the 0.9
 gem 'pg'
 gem 'rubocop', require: false
 gem 'devise', '~> 3.5.2'
-# gem 'unicorn'
 gem 'puma'
 gem 'jwt', '1.5.4'
 gem 'simple_command'
@@ -33,7 +32,6 @@ group :development do
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
-  # gem 'capistrano3-unicorn', require: false
 end
 
 group :development, :test do
