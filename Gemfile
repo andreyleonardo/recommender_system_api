@@ -8,7 +8,7 @@ gem 'rubocop', require: false
 gem 'devise', '~> 3.5.2'
 # gem 'unicorn'
 gem 'puma'
-gem 'jwt'
+gem 'jwt', '1.5.4'
 gem 'simple_command'
 gem 'rack-cors', require: 'rack/cors'
 gem 'yettings', '~>0.1.1'

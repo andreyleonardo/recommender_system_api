@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 # Change these
-server '192.241.178.209', port: 80, roles: [:web, :app, :db], primary: true
+server '192.241.178.209', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:dreyxvx/recommender_system_api.git'
 set :application,     'recommender_system_api'
