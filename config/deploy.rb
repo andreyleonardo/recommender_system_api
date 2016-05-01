@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 # Change these
-server '192.241.178.209', port: 22, roles: [:web, :app, :db], primary: true
+server '192.241.178.209', port: 22, roles: [:app, :db], primary: true
 
 set :repo_url,        'git@github.com:dreyxvx/recommender_system_api.git'
 set :application,     'recommender_system_api'
@@ -24,7 +24,9 @@ set :ssh_options,     forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/i
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true # Change to false when not using ActiveRecord
-
+set :sidekiq_role, :app
+# set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
+set :sidekiq_env, 'production'
 ## Defaults:
 # set :scm,           :git
 # set :branch,        :master
