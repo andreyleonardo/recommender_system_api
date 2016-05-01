@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160326214134) do
+ActiveRecord::Schema.define(version: 20160501114636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "describers", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "describers", ["name"], name: "index_describers_on_name", unique: true, using: :btree
 
   create_table "genres", force: :cascade do |t|
     t.string   "name"
@@ -23,7 +31,7 @@ ActiveRecord::Schema.define(version: 20160326214134) do
   end
 
   create_table "links", force: :cascade do |t|
-    t.integer  "imdb_id"
+    t.string   "imdb_id"
     t.integer  "tmdb_id"
     t.integer  "movie_id"
     t.datetime "created_at", null: false
@@ -31,6 +39,16 @@ ActiveRecord::Schema.define(version: 20160326214134) do
   end
 
   add_index "links", ["movie_id"], name: "index_links_on_movie_id", using: :btree
+
+  create_table "movie_describers", force: :cascade do |t|
+    t.integer  "movie_id"
+    t.integer  "describer_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "movie_describers", ["describer_id"], name: "index_movie_describers_on_describer_id", using: :btree
+  add_index "movie_describers", ["movie_id"], name: "index_movie_describers_on_movie_id", using: :btree
 
   create_table "movie_genres", force: :cascade do |t|
     t.integer  "movie_id"
@@ -47,6 +65,9 @@ ActiveRecord::Schema.define(version: 20160326214134) do
     t.integer  "movielens_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "overview"
+    t.string   "plot"
+    t.string   "rate"
   end
 
   add_index "movies", ["movielens_id"], name: "index_movies_on_movielens_id", using: :btree
@@ -107,6 +128,8 @@ ActiveRecord::Schema.define(version: 20160326214134) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "links", "movies"
+  add_foreign_key "movie_describers", "describers"
+  add_foreign_key "movie_describers", "movies"
   add_foreign_key "movie_genres", "genres"
   add_foreign_key "movie_genres", "movies"
   add_foreign_key "ratings", "movies"

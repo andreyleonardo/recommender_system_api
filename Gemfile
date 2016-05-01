@@ -24,6 +24,9 @@ gem 'predictor'
 gem 'hiredis'
 gem 'sinatra', require: nil
 
+gem 'themoviedb-api'
+gem 'rest-client'
+
 group :development, :test do
   gem 'byebug'
   gem 'spring'

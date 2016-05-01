@@ -16,7 +16,7 @@ csv.each do |row|
   next unless movie
   Link.create(
     movie_id: movie.id,
-    imdb_id: link['imdbId'],
+    imdb_id: "tt#{link['imdbId']}",
     tmdb_id: link['tmdbId']
   )
 end
