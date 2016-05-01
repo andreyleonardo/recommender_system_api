@@ -25,8 +25,11 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true # Change to false when not using ActiveRecord
 set :sidekiq_role, :app
-# set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
+set :sidekiq_pid, File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid')
+set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
 set :sidekiq_env, 'production'
+set :sidekiq_default_hooks, true
+set :sidekiq_log, File.join(current_path, 'log', 'sidekiq.log')
 ## Defaults:
 # set :scm,           :git
 # set :branch,        :master
@@ -73,6 +76,13 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       invoke 'puma:restart'
     end
+  end
+
+  task :add_default_hooks do
+    after 'deploy:starting', 'sidekiq:quiet'
+    after 'deploy:updated', 'sidekiq:stop'
+    after 'deploy:reverted', 'sidekiq:stop'
+    after 'deploy:published', 'sidekiq:start'
   end
 
   before :starting,     :check_revision
