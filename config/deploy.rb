@@ -26,10 +26,10 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true # Change to false when not using ActiveRecord
 set :sidekiq_role, :app
 set :sidekiq_pid, File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid')
-set :sidekiq_config, "#{current_path}/config/sidekiq.yml"
+set :sidekiq_config, "#{release_path}/config/sidekiq.yml"
 set :sidekiq_env, 'production'
 set :sidekiq_default_hooks, true
-set :sidekiq_log, File.join(current_path, 'log', 'sidekiq.log')
+set :sidekiq_log, File.join(release_path, 'log', 'sidekiq.log')
 ## Defaults:
 # set :scm,           :git
 # set :branch,        :master
@@ -39,7 +39,7 @@ set :sidekiq_log, File.join(current_path, 'log', 'sidekiq.log')
 
 ## Linked Files & Directories (Default None):
 set :linked_files, %w(config/database.yml config/secrets.yml)
-# set :linked_dirs,  %w(tmp/pids tmp/cache tmp/sockets)
+set :linked_dirs,  fetch(:linked_dirs, []).push('tmp/pids', 'tmp/cache', 'tmp/sockets')
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
