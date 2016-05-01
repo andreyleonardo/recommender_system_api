@@ -3,10 +3,11 @@
 class MovieRecommender
   include Predictor::Base
 
-  input_matrix :users, weight: 3.0
-  input_matrix :ratings, weight: 3.0
-  input_matrix :genres, weight: 2.0
-  input_matrix :tags, weight: 1.0, measure: :sorensen_coefficient # Use Sorenson over Jaccard
+  input_matrix :genres, weight: 5.0
+  input_matrix :ratings, weight: 4.0
+  input_matrix :rates, weight: 3.0
+  input_matrix :users, weight: 2.0
+  input_matrix :describers, weight: 1.0
 
   def add_movies_to_matrix
     Movie.find_each do |movie|
@@ -18,14 +19,26 @@ class MovieRecommender
       else
         add_to_matrix(:ratings, 0, movie.id)
       end
-      unless movie.tags.empty?
-        movie.tags.each do |tag|
-          add_to_matrix(:tags, tag.tag, movie.id)
-        end
-      end
+      # unless movie.tags.empty?
+      #   movie.tags.each do |tag|
+      #     add_to_matrix(:tags, tag.tag, movie.id)
+      #   end
+      # end
       unless movie.genres.empty?
         movie.genres.each do |movie_genre|
           add_to_matrix(:genres, movie_genre.genre.id, movie.id)
+        end
+      end
+      unless movie.describers.empty?
+        movie.describers.each do |movie_describer|
+          add_to_matrix(:genres, movie_describer.describer.id, movie.id)
+        end
+      end
+      unless movie.rate.nil?
+        if movie.rate == 'N/A'
+          add_to_matrix(:rates, 'PG')
+        else
+          add_to_matrix(:rates, movie.rate)
         end
       end
     end

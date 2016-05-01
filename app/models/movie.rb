@@ -5,6 +5,7 @@ class Movie < ActiveRecord::Base
     class_name: 'MovieGenre'
   has_many :describers,
     class_name: 'MovieDescriber'
+  has_one :link
 
   attr_accessor :score
 

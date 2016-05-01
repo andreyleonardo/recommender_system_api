@@ -6,8 +6,8 @@ gem 'active_model_serializers', '~> 0.8.3' # NOTE: not the 0.9
 gem 'pg'
 gem 'rubocop', require: false
 gem 'devise', '~> 3.5.2'
-gem 'unicorn'
-gem 'capistrano', '~> 3.4.0'
+# gem 'unicorn'
+gem 'puma'
 gem 'jwt'
 gem 'simple_command'
 gem 'rack-cors', require: 'rack/cors'
@@ -26,6 +26,14 @@ gem 'sinatra', require: nil
 
 gem 'themoviedb-api'
 gem 'rest-client'
+
+group :development do
+  gem 'capistrano',         require: false
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
+end
 
 group :development, :test do
   gem 'byebug'
