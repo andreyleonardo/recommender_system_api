@@ -31,15 +31,16 @@ gem 'themoviedb-api'
 gem 'rest-client'
 
 group :development do
-  gem 'mina', require: false
-  gem 'mina-sidekiq', require: false
-  gem 'mina-puma', require: false
-  # gem 'capistrano',         require: false
+  # gem 'mina', require: false
+  # gem 'mina-sidekiq', require: false
+  # gem 'mina-puma', require: false
+  gem 'capistrano-rbenv', github: 'capistrano/rbenv'
+  gem 'capistrano',         require: false
   # gem 'capistrano-rvm',     require: false
-  # gem 'capistrano-rails',   require: false
-  # gem 'capistrano-bundler', require: false
-  # gem 'capistrano3-puma',   require: false
-  # gem 'capistrano-sidekiq', require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :development, :test do
