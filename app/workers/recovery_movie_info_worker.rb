@@ -6,6 +6,7 @@ class RecoveryMovieInfoWorker
     Link.find_each do |link|
       movie = link.movie
       if movie.overview.nil? && !link.tmdb_id.nil?
+        sleep(0.33)
         tmdb = Tmdb::Find.movie(link.imdb_id, external_source: 'imdb_id')
         movie.overview = tmdb[0].overview unless tmdb.empty?
         movie.save
