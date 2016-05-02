@@ -10,7 +10,7 @@ set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
 # Don't change these unless you know what you're doing
-set :pty,             true
+set :pty,             false
 set :use_sudo,        false
 set :stage,           :production
 set :deploy_via,      :remote_cache
@@ -28,7 +28,7 @@ set :sidekiq_role, :app
 set :sidekiq_pid, File.join(shared_path, 'tmp', 'pids', 'sidekiq.pid')
 set :sidekiq_config, "#{release_path}/config/sidekiq.yml"
 set :sidekiq_env, 'production'
-set :sidekiq_default_hooks, true
+set :sidekiq_default_hooks, false
 set :sidekiq_log, File.join(shared_path, 'log', 'sidekiq.log')
 ## Defaults:
 # set :scm,           :git
@@ -65,6 +65,7 @@ namespace :deploy do
   desc 'Make sure local git is in sync with remote.'
   task :check_revision do
     on roles(:app) do
+      invoke 'sidekiq:quiet'
       unless `git rev-parse HEAD` == `git rev-parse origin/master`
         logger.info  'WARNING: HEAD is not the same as origin/master'
         logger.info  'Run `git push` to sync changes.'
@@ -83,6 +84,8 @@ namespace :deploy do
 
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
+      invoke 'sidekiq:stop'
+      invoke 'sidekiq:start'
       invoke 'puma:restart'
     end
   end
