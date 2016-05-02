@@ -1,8 +1,7 @@
 require 'sidekiq'
-require 'yettings'
 
-host = Yetting.redis_host
-port = Yetting.redis_port
+host = '127.0.0.1'
+port = '6379'
 
 Sidekiq.configure_server do |config|
   config.redis = { url: "redis://#{host}:#{port}/0" }
