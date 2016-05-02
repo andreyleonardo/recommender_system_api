@@ -2,6 +2,7 @@ class RecoveryMovieInfoWorker
   include Sidekiq::Worker
   # sidekiq_options retry: false, dead: false
   def perform
+    logger.info 'Processing Movie Info'
     Link.find_each do |link|
       movie = link.movie
       if movie.overview.nil? && !link.tmdb_id.nil?
