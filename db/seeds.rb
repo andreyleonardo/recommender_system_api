@@ -35,7 +35,7 @@ csv.each_with_index do |row, index|
   Rating.create(
     user_id: rating['userId'],
     movie_id: movie.id,
-    score: rating['rating']
+    rating: rating['rating']
   )
   UserRating.create(
     user_id: rating['userId'],
