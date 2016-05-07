@@ -26,8 +26,10 @@ class MoviesController < ApplicationController
 
   def recommend_movies_by_prediction
     recommender = MovieRecommender.new
-    movies = recommender.predictions_for(item_set: params[:movies_id])
-    movies = Movie.find(movies)
+    movies = recommender.predictions_for(item_set: params[:movies_id]) if params[:movies_id]
+    movies = recommender.predictions_for(params[:user_id], matrix_label: :users) if params[:user_id]
+    # movies = Movie.find(movies)
+    movies = Movie.where(id: movies).order("position(id::text in '#{movies.join(',')}')")
     render json: movies, root: false
   end
 

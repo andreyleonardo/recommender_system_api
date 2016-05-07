@@ -25,6 +25,7 @@ gem 'table_print'
 # Recommender System gem
 gem 'predictor'
 gem 'hiredis'
+gem 'redis', require: ['redis', 'redis/connection/hiredis']
 gem 'sinatra', require: nil
 
 gem 'themoviedb-api'

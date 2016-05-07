@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20160501114636) do
   end
 
   create_table "ratings", force: :cascade do |t|
-    t.float    "rating"
+    t.float    "score"
     t.integer  "movie_id"
     t.integer  "user_id"
     t.datetime "created_at", null: false

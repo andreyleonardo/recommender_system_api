@@ -241,6 +241,7 @@ DEPENDENCIES
   rack-cors
   rails (= 4.2.5.2)
   rails-api (~> 0.4.0)
+  redis
   rest-client
   rubocop
   sidekiq (= 3.4.2)

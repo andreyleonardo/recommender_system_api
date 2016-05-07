@@ -2,7 +2,9 @@ class RecoveryMovieInfoWorker
   include Sidekiq::Worker
   # sidekiq_options retry: false, dead: false
   def perform
-    logger.info 'Processing Movie Info'
+    # logger.info 'Processing Movie Info'
+    puts 'Processing Movie Info'
+    start = Time.zone.now
     Link.find_each do |link|
       movie = link.movie
       if movie.overview.nil? && !link.tmdb_id.nil?
@@ -19,5 +21,6 @@ class RecoveryMovieInfoWorker
         movie.save
       end
     end
+    puts Time.zone.now - start
   end
 end

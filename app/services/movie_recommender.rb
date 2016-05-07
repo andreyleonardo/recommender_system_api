@@ -2,28 +2,20 @@
 # https://github.com/Pathgather/predictor
 class MovieRecommender
   include Predictor::Base
-
-  input_matrix :genres, weight: 5.0
-  input_matrix :ratings, weight: 4.0
-  input_matrix :rates, weight: 3.0
-  input_matrix :users, weight: 2.0
+  processing_technique(:lua)
+  input_matrix :users, weight: 3.0
+  input_matrix :genres, weight: 3.0
+  input_matrix :ratings, weight: 1.0
+  input_matrix :rates, weight: 2.0
   input_matrix :describers, weight: 1.0
 
   def add_movies_to_matrix
     Movie.find_each do |movie|
-      if !movie.ratings.empty?
-        total = 0.0
-        movie.ratings.each { |x| total += x.rating }
-        total /= movie.ratings.size
-        add_to_matrix(:ratings, total.round, movie.id)
-      else
-        add_to_matrix(:ratings, 0, movie.id)
+      unless movie.ratings.empty?
+        movie.ratings.each do |r|
+          add_to_matrix(:ratings, r.rating, movie.id)
+        end
       end
-      # unless movie.tags.empty?
-      #   movie.tags.each do |tag|
-      #     add_to_matrix(:tags, tag.tag, movie.id)
-      #   end
-      # end
       unless movie.genres.empty?
         movie.genres.each do |movie_genre|
           add_to_matrix(:genres, movie_genre.genre.id, movie.id)
@@ -31,16 +23,10 @@ class MovieRecommender
       end
       unless movie.describers.empty?
         movie.describers.each do |movie_describer|
-          add_to_matrix(:genres, movie_describer.describer.id, movie.id)
+          add_to_matrix(:describers, movie_describer.describer.id, movie.id)
         end
       end
-      unless movie.rate.nil?
-        if movie.rate == 'N/A'
-          add_to_matrix(:rates, 'PG')
-        else
-          add_to_matrix(:rates, movie.rate)
-        end
-      end
+      add_to_matrix(:rates, movie.rate, movie.id) unless movie.rate.nil?
     end
   end
 

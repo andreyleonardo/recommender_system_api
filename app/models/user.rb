@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable
 
-  after_save :update_access_token
+  # after_save :update_access_token
 
   has_many :ratings,
     class_name: 'UserRating'
