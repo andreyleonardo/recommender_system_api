@@ -9,7 +9,7 @@ class Movie < ActiveRecord::Base
 
   attr_accessor :score
 
-  def self.update_info_from_api
-    RecoveryMovieInfoWorker.perform_async
+  def self.update_info_from_api(run_recommender)
+    RecoveryMovieInfoWorker.perform_async run_recommender
   end
 end

@@ -1,7 +1,7 @@
 class RecoveryMovieInfoWorker
   include Sidekiq::Worker
   # sidekiq_options retry: false, dead: false
-  def perform
+  def perform(run_recommender)
     # logger.info 'Processing Movie Info'
     puts 'Processing Movie Info'
     start = Time.zone.now
@@ -22,5 +22,6 @@ class RecoveryMovieInfoWorker
       end
     end
     puts Time.zone.now - start
+    RecommenderProcessWorker.perform_async if run_recommender
   end
 end
