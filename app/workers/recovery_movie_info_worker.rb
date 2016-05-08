@@ -20,6 +20,13 @@ class RecoveryMovieInfoWorker
         movie.plot = omdb['Plot']
         movie.save
       end
+      if movie.storyline.nil?
+        movies_api = RestClient.get 'https://moviesapi.com/m.php',
+          params: { i: link.tmdb_id, type: 'movie', r: 'json' }
+        movies_api = JSON.parse(movies_api)
+        movie.storyline = movies_api['plot']
+        movie.save
+      end
     end
     puts Time.zone.now - start
     RecommenderProcessWorker.perform_async if run_recommender

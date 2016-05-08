@@ -13,11 +13,11 @@ csv = CSV.parse(csv_text, headers: true)
 csv.each_with_index do |row, index|
   link = row.to_hash
   movie = Movie.find_by(id: link['movieId'])
-  next unless movie
+  next if movie.nil?
   Link.create(
     movie_id: movie.id,
     imdb_id: "tt#{link['imdbId']}",
-    tmdb_id: link['tmdbId']
+    tmdb_id: link['imdbId']
   )
 end
 puts Time.zone.now - start
@@ -31,7 +31,7 @@ csv = CSV.parse(csv_text, headers: true)
 csv.each_with_index do |row, index|
   rating = row.to_hash
   movie = Movie.find_by(id: rating['movieId'])
-  next unless movie
+  next if movie.nil?
   Rating.create(
     user_id: rating['userId'],
     movie_id: movie.id,
@@ -53,7 +53,7 @@ csv = CSV.parse(csv_text, headers: true)
 csv.each_with_index do |row, index|
   tag = row.to_hash
   movie = Movie.find_by(id: tag['movieId'])
-  next unless movie
+  next if movie.nil?
   Tag.create(
     user_id: tag['userId'],
     movie_id: movie.id,
