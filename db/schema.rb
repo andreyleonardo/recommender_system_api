@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160508013952) do
+ActiveRecord::Schema.define(version: 20160508134017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,12 +74,6 @@ ActiveRecord::Schema.define(version: 20160508013952) do
   add_index "movies", ["movielens_id"], name: "index_movies_on_movielens_id", using: :btree
   add_index "movies", ["title"], name: "index_movies_on_title", using: :btree
 
-  create_table "profiles", force: :cascade do |t|
-    t.string   "full_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "ratings", force: :cascade do |t|
     t.float    "rating"
     t.integer  "movie_id"
@@ -121,11 +115,9 @@ ActiveRecord::Schema.define(version: 20160508013952) do
     t.string   "access_token"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "profile_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["profile_id"], name: "index_users_on_profile_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "links", "movies"
@@ -139,5 +131,4 @@ ActiveRecord::Schema.define(version: 20160508013952) do
   add_foreign_key "tags", "users"
   add_foreign_key "user_ratings", "ratings"
   add_foreign_key "user_ratings", "users"
-  add_foreign_key "users", "profiles"
 end

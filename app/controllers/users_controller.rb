@@ -21,37 +21,26 @@ class UsersController < ApplicationController
     if user.invalid? && user.errors.include?(:email)
       Rails.logger.info 'email_already_exists'
       render json: { error: 'email_already_exists' }, status: :unprocessable_entity
-    else
+    elsif user.save
       # Note: Devise will automatically send email confirmation instructions
       # after a user is created.  Need to wait until after the child object
       # is created since that is where we store their name.
       # user.skip_confirmation_notification!
-      profile = Profile.new profile_params
-      user.profile = profile
+      # profile = Profile.new profile_params
+      # user.profile = profile
+      #
+      # if user.save
+      # Now manually trigger the devise email
+      # user.send_confirmation_instructions
 
-      if user.save
-        # Now manually trigger the devise email
-        # user.send_confirmation_instructions
+      render json: user, serializer: SessionSerializer, root: nil
 
-        render json: user, serializer: SessionSerializer, root: nil
+    else
+      Rails.logger.error 'errors when creating a user: ' + user.errors.messages.to_s
 
-      else
-        Rails.logger.error 'errors when creating a user: ' + user.errors.messages.to_s
-
-        warden.custom_failure!
-        render json: { error: 'user_create_error' }, status: :unprocessable_entity
-      end
+      # warden.custom_failure!
+      render json: { error: 'user_create_error' }, status: :unprocessable_entity
     end
-  end
-
-  # PUT /v1/users/:user_id/update_email
-  # Update email address in the database
-  def update_email
-    user = User.find params[:user_id]
-
-    user.update email: user_email unless user_email.empty?
-
-    render json: user, root: false
   end
 
   private
