@@ -1,7 +1,5 @@
 class DescribersProcessor
-  def self.create_describers_for(movie_id)
-    describers = {}
-    movie = Movie.find(movie_id)
+  def self.create_describers_for(movie)
     stopwords = load_stopwords
     storyline = []
     plot = []
@@ -24,16 +22,13 @@ class DescribersProcessor
         !stopwords.include?(word)
       end
     end
-    filtered_words = overview + plot + storyline
-    filtered_words.each do |word|
-      if describers.key?word
-        describers[word] += 1
-      else
-        describers[word] = 1
-      end
-    end
-    describers = describers.sort_by { |_key, value| value }.reverse.to_h
-    create_describers(movie_id, describers)
+    tf_overview = calculate_tf overview
+    tf_plot = calculate_tf plot
+    tf_storyline = calculate_tf storyline
+
+    describers = combine_ranks(tf_overview, tf_plot, tf_storyline)
+    # describers = describers.sort_by { |_key, value| value }.reverse.to_h
+    create_describers(movie.id, describers)
   end
 
   def self.load_stopwords
@@ -42,13 +37,54 @@ class DescribersProcessor
   end
 
   def self.create_describers(movie_id, describers)
-    describers.each do |k, v|
-      next unless v > 1
-      describer = Describer.find_or_create_by(name: k)
+    describers.take(10).each do |item|
+      describer = Describer.find_or_create_by(name: item)
       MovieDescriber.create(
         movie_id: movie_id,
         describer: describer
       ) unless MovieDescriber.find_by(movie_id: movie_id, describer: describer)
     end
+  end
+
+  def self.calculate_tf(list)
+    describers = {}
+    list.each do |word|
+      if describers.key?word
+        describers[word] += 1
+      else
+        describers[word] = 1
+      end
+    end
+    describers.sort_by { |_key, value| value }.reverse.to_h.keys
+  end
+
+  def self.combine_ranks(overview, plot, storyline)
+    describers_ranked = {}
+    bigger_array = if overview.size > plot.size
+                     if overview.size > storyline.size
+                       overview
+                     else
+                       storyline
+                     end
+                   elsif plot.size > storyline.size
+                     plot
+                   else
+                     storyline
+                   end
+    bigger_array.each_with_index do |item|
+      indexes = []
+      combined_rank = 0
+      indexes.push(overview.find_index(item), plot.find_index(item), storyline.find_index(item))
+      indexes.compact!
+      indexes.sort!
+      indexes.push(indexes.last + 1) if indexes.size < 2
+      indexes.push(indexes.last + 1) if indexes.size < 3
+
+      indexes.each do |index|
+        combined_rank += index
+      end
+      describers_ranked[item] = combined_rank
+    end
+    describers_ranked.sort_by { |_key, value| value }.to_h.keys
   end
 end

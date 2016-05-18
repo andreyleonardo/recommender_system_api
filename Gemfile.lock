@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/Pathgather/predictor.git
+  revision: 09b7a98293ca976fed643d6b72498defe89b2779
+  specs:
+    predictor (2.3.1)
+      redis (>= 3.0.0)
+
+GIT
   remote: git://github.com/capistrano/rbenv.git
   revision: e056efc0c361cc15b76ff961d6c5f65ed5e2c57e
   specs:
@@ -124,8 +131,6 @@ GEM
       ast (~> 2.2)
     pg (0.18.4)
     powerpack (0.1.1)
-    predictor (2.3.1)
-      redis (>= 3.0.0)
     puma (3.4.0)
     rack (1.6.4)
     rack-cors (0.4.0)
@@ -236,7 +241,7 @@ DEPENDENCIES
   jwt (= 1.5.4)
   letter_opener
   pg
-  predictor
+  predictor!
   puma
   rack-cors
   rails (= 4.2.5.2)
