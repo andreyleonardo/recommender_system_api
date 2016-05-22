@@ -3,8 +3,8 @@
 class MovieRecommender
   include Predictor::Base
   processing_technique(:lua)
-  input_matrix :users, weight: 3.0
-  input_matrix :ratings, weight: 2.0
+  input_matrix :users, weight: 1.0
+  input_matrix :ratings, weight: 1.0
   input_matrix :genres, weight: 1.0
   input_matrix :rates, weight: 1.0
   input_matrix :describers, weight: 1.0
@@ -46,12 +46,8 @@ class MovieRecommender
 
   def create_cold_start_item(movie_id)
     delete_from_matrix!(:users, movie_id)
-    movie = Movie.find_by(id: movie_id)
-    unless movie.describers.empty?
-      movie.describers.each do |movie_describer|
-        delete_pair_from_matrix!(:describers, movie_describer.describer_id, movie.id)
-      end
-    end
+    delete_from_matrix!(:describers, movie_id)
+    delete_from_matrix!(:ratings, movie_id)
   end
 
   def add_user_movie_to_matrix(user_id, movie_id)
@@ -70,11 +66,6 @@ class MovieRecommender
   end
 
   def delete_describers_from_matrix(movie_id)
-    movie = Movie.find_by(id: movie_id)
-    unless movie.describers.empty?
-      movie.describers.each do |movie_describer|
-        delete_pair_from_matrix!(:describers, movie_describer.describer_id, movie.id)
-      end
-    end
+    delete_from_matrix!(:describers, movie_id)
   end
 end

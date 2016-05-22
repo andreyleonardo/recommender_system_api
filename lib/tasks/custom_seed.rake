@@ -9,3 +9,13 @@ namespace :db do
     end
   end
 end
+
+namespace :predictor do
+  desc 'Recommender'
+  Dir[File.join(Rails.root, 'recommender_rake', '*.rb')].each do |filename|
+    task_name = File.basename(filename, '.rb').intern
+    task task_name => :environment do
+      load(filename) if File.exist?(filename)
+    end
+  end
+end

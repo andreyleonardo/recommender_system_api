@@ -22,17 +22,6 @@ class RatingsController < ApplicationController
   end
 
   def destroy
-    rating = Rating.find(params[:id])
-    movie_id = rating.movie_id
-    user_id = rating.user_id
-
-    rating.delete
-
-    UpdateMatrixWorker.perform_async(user_id, movie_id, true)
-  end
-
-  def destroy_cold_start
-    # Rating.where(movie_id: params[:id]).delete_all
-    UpdateMatrixWorker.perform_async(nil, nil, true)
+    CreateColdStartWorker.perform_async
   end
 end
