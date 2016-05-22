@@ -7,7 +7,7 @@ class CreateColdStartWorker
     file = File.new('deleted_movies.txt', 'w')
     User.all.ids.sample(67).each do |user|
       ratings = Rating.find_best_ratings_by_user_id user
-      next unless ratings
+      next if ratings.empty?
       recommender.create_cold_start_item ratings.first.movie_id
       file.write("user_id;#{ratings.first.user_id};movie_id;#{ratings.first.movie_id};movie_title;#{ratings.first.movie.title}\n")
       MovieDescriber.where(movie_id: ratings.first.movie_id).delete_all

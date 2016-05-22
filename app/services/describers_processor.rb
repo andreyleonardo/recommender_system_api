@@ -1,5 +1,5 @@
 class DescribersProcessor
-  def self.create_describers_for(movie)
+  def self.create_describers_for(movie, combine)
     stopwords = load_stopwords
     storyline = []
     plot = []
@@ -26,8 +26,12 @@ class DescribersProcessor
     tf_plot = calculate_tf plot
     tf_storyline = calculate_tf storyline
 
-    describers = combine_ranks(tf_overview, tf_plot, tf_storyline)
-    # describers = describers.sort_by { |_key, value| value }.reverse.to_h
+    # If it's not combination method use only the best describers from each rank
+    describers = [tf_overview.first, tf_plot.first, tf_storyline.first]
+
+    # If it's to use combination use this call
+    describers = combine_ranks(tf_overview, tf_plot, tf_storyline) if combine
+
     create_describers(movie.id, describers)
   end
 
@@ -37,7 +41,8 @@ class DescribersProcessor
   end
 
   def self.create_describers(movie_id, describers)
-    describers.take(10).each do |item|
+    describers.each do |item|
+      next if item.nil?
       describer = Describer.find_or_create_by(name: item)
       MovieDescriber.create(
         movie_id: movie_id,

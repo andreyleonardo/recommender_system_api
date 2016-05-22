@@ -35,7 +35,7 @@ class MoviesController < ApplicationController
     recommender = MovieRecommender.new
     movies = recommender.predictions_for(item_set: params[:movies_id], with_scores: true, limit: 100) \
       if params[:movies_id]
-    movies = recommender.predictions_for(params[:user_id], matrix_label: :users, with_scores: true) \
+    movies = recommender.predictions_for(params[:user_id], matrix_label: :users, with_scores: true, limit: 100) \
       if params[:user_id]
     movies_hash = movies.to_h
     ids = movies_hash.keys
