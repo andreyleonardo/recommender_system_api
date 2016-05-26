@@ -7,17 +7,17 @@ while (line = deleted_movies.gets)
   user_id = line[line.index('user_id') + 1]
   movie_id = line[line.index('movie_id') + 1]
   movies = recommender.predictions_for(user_id, matrix_label: :users, with_scores: true).to_h
-  puts movies.keys
-  score_before = movies[movie_id]
-  position_before = movies.keys.index(movie_id)
+  score_before = movies[movie_id].nil? ? 0 : movies[movie_id]
+  position_before = movies.keys.index(movie_id).nil? ? 0 : movies.keys.index(movie_id)
   processed_movies.write "#{movie_id};#{position_before};#{score_before};"
-  movie = Movie.find(movie_id)
-  DescribersProcessor.create_describers_for movie, false
+  # movie = Movie.find(movie_id)
+  # DescribersProcessor.create_describers_for movie, false
   recommender.add_describers_to_matrix movie_id
   movies = recommender.predictions_for(user_id, matrix_label: :users, with_scores: true).to_h
-  score_after = movies[movie_id]
-  position_after = movies.keys.index(movie_id)
+  score_after = movies[movie_id].nil? ? 0 : movies[movie_id]
+  position_after = movies.keys.index(movie_id).nil? ? 0 : movies.keys.index(movie_id)
   processed_movies.write "#{position_after};#{score_after};"
-  processed_movies.write "#{position_after - position_before};#{score_after - score_before}\n"
+  processed_movies.write "#{position_before - position_after};#{score_after - score_before}\n"
+  puts movie_id
 end
 processed_movies.close
