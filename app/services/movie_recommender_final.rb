@@ -1,10 +1,10 @@
 # Predictor use 2 methods: similarities_for(:id) and find_predictions_for(item_set: [:ids])
 # https://github.com/Pathgather/predictor
-class MovieRecommender
+class MovieRecommenderFinal
   include Predictor::Base
   processing_technique(:lua)
-  input_matrix :users, weight: 1.0
-  input_matrix :ratings, weight: 1.0
+  input_matrix :users, weight: 3.0
+  input_matrix :ratings, weight: 2.0
   input_matrix :genres, weight: 1.0
   input_matrix :rates, weight: 1.0
   input_matrix :describers, weight: 1.0
@@ -51,9 +51,7 @@ class MovieRecommender
   end
 
   def add_user_movie_to_matrix(user_id, movie_id)
-    user = User.find(user_id)
-    movie = User.ratings.find_by(id: movie_id)
-    add_to_matrix!(:users, user.id, movie.id) unless user.nil?
+    add_to_matrix!(:users, user_id, movie_id)
   end
 
   def add_describers_to_matrix(movie_id)
@@ -67,5 +65,9 @@ class MovieRecommender
 
   def delete_describers_from_matrix(movie_id)
     delete_from_matrix!(:describers, movie_id)
+  end
+
+  def delete_movie_from_user(user_id, movie_id)
+    delete_pair_from_matrix!(:users, user_id, movie_id)
   end
 end

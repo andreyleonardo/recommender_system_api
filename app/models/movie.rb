@@ -15,7 +15,7 @@ class Movie < ActiveRecord::Base
   end
 
   def delete_describers
-    recommender = MovieRecommender.new
+    recommender = MovieRecommenderFinal.new
     recommender.delete_describers_from_matrix(id)
     describers.delete_all
   end

@@ -3,7 +3,7 @@ class CreateColdStartWorker
   def perform
     logger.info 'Creating Cold Starts'
     start = Time.zone.now
-    recommender = MovieRecommender.new
+    recommender = MovieRecommenderFinal.new
     file = File.new('deleted_movies.txt', 'w')
     User.all.ids.sample(67).each do |user|
       ratings = Rating.find_best_ratings_by_user_id user
