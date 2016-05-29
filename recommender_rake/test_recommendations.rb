@@ -1,7 +1,7 @@
 deleted_movies = File.open('deleted_movies.txt')
 processed_movies = File.new('processed_movies.txt', 'w')
 recommender = MovieRecommenderFinal.new
-processed_movies.write "Movie ID;Position Before;Score Before;Position After;Score After;Position Increase;Score Increase\n"
+processed_movies.write "Movie ID;Position Before;Score Before;Position After;Score After;Position Increase;Score Increase;Rank Size\n"
 while (line = deleted_movies.gets)
   line = line.split(';')
   user_id = line[line.index('user_id') + 1]
@@ -17,7 +17,7 @@ while (line = deleted_movies.gets)
   score_after = movies[movie_id].nil? ? 0 : movies[movie_id]
   position_after = movies.keys.index(movie_id).nil? ? 0 : (movies.keys.index(movie_id) + 1)
   processed_movies.write "#{position_after};#{score_after};"
-  processed_movies.write "#{position_before - position_after};#{score_after - score_before}\n"
+  processed_movies.write "#{position_before - position_after};#{score_after - score_before};#{movies.size}\n"
   puts movie_id
 end
 processed_movies.close

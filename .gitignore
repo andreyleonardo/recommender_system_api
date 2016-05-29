@@ -15,6 +15,7 @@
 /log/*
 !/log/.keep
 /tmp
+/results
 
 # Ignore files containing secrets
 config/database.yml
