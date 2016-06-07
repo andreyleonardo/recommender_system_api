@@ -1,6 +1,6 @@
 deleted_movies = File.open('deleted_movies.txt')
-processed_movies = File.new('processed_movies.txt', 'w')
-recommender = MovieRecommenderFinal.new
+processed_movies = File.new('results/processed_movies.txt', 'w')
+recommender = MovieRecommender.new
 processed_movies.write "Movie ID;Position Before;Score Before;Position After;Score After;Position Increase;Score Increase;Rank Size\n"
 while (line = deleted_movies.gets)
   line = line.split(';')

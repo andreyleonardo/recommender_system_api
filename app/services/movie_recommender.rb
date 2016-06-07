@@ -1,10 +1,10 @@
 # Predictor use 2 methods: similarities_for(:id) and find_predictions_for(item_set: [:ids])
 # https://github.com/Pathgather/predictor
-class MovieRecommenderFinal
+class MovieRecommender
   include Predictor::Base
   processing_technique(:lua)
-  input_matrix :users, weight: 3.0
-  input_matrix :ratings, weight: 2.0
+  input_matrix :users, weight: 1.0
+  input_matrix :ratings, weight: 1.0
   input_matrix :genres, weight: 1.0
   input_matrix :rates, weight: 1.0
   input_matrix :describers, weight: 1.0
